@@ -1,0 +1,12 @@
+{ "columns":48,
+ "image":"commands.png",
+ "imageheight":480,
+ "imagewidth":768,
+ "margin":0,
+ "name":"commands",
+ "spacing":0,
+ "tilecount":1440,
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset"
+}
