@@ -176,6 +176,7 @@ class Game
 		this.ay = 96 * 16;
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
+		bindEvent(window, "oreintationchange", this.onResize.bind(this));
 		this.onResize();
 		this.setPixelRatio();
 	}
