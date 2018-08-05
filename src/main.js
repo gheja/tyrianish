@@ -6,6 +6,7 @@ const FPS = 60;
 
 let _game;
 let _stats;
+let _loader;
 
 function _z(x)
 {
@@ -21,6 +22,142 @@ function bindEvent(obj, event, callback)
 	else
 	{
 		obj.attachEvent("on" + event, callback);
+	}
+}
+
+class Resource
+{
+	constructor(name, file, type)
+	{
+		this.name = name;
+		this.file = file;
+		this.type = type;
+		this.data = null;
+		this.image = null;
+		this.done = false;
+	}
+	
+	fetch(successCallback, failureCallback)
+	{
+		this.onSuccess = successCallback;
+		this.onFailure = failureCallback;
+		
+		if (this.type == "image/png")
+		{
+			this.image = new Image();
+			bindEvent(this.image, "load", this.onImageLoaded.bind(this));
+			bindEvent(this.image, "error", this.onImageFailed.bind(this));
+			this.image.src = this.file;
+		}
+		else
+		{
+			this.xhr = new XMLHttpRequest();
+			this.xhr.onreadystatechange = this.onXhrReadyStateChange.bind(this);
+			this.xhr.open("GET", this.file, true);
+			this.xhr.send();
+		}
+	}
+	
+	onXhrReadyStateChange(event)
+	{
+		if (this.xhr.readyState == 4)
+		{
+			if (this.xhr.status == 200)
+			{
+				this.done = true;
+				
+				if (this.type == "application/json")
+				{
+					this.data = JSON.parse(this.xhr.responseText);
+				}
+				else
+				{
+					this.data = this.xhr.responseText;
+				}
+				this.onSuccess.call();
+			}
+			else
+			{
+				this.onFailure.call();
+			}
+		}
+	}
+	
+	onImageLoaded()
+	{
+		this.done = true;
+		this.onSuccess.call();
+	}
+	
+	onImageFailed()
+	{
+		this.onFailure.call();
+	}
+}
+
+class Loader
+{
+	constructor()
+	{
+		this.resources = [];
+		this.finished = false;
+	}
+	
+	enqueue(name, file, type)
+	{
+		this.resources.push(new Resource(name, file, type))
+		this.finished = false;
+	}
+	
+	fetchNext()
+	{
+		let i;
+		
+		for (i=0; i<this.resources.length; i++)
+		{
+			if (!this.resources[i].done)
+			{
+				this.resources[i].fetch(this.onFetchSuccess.bind(this), this.onFetchFailure.bind(this));
+				return;
+			}
+		}
+		
+		// nothing to fetch
+		
+		this.onSuccess.call();
+		this.finished = true;
+	}
+	
+	onFetchFailure()
+	{
+		this.onFailure.call();
+	}
+	
+	onFetchSuccess()
+	{
+		this.fetchNext();
+	}
+	
+	start(successCallback, failureCallback)
+	{
+		this.onSuccess = successCallback;
+		this.onFailure = failureCallback;
+		this.fetchNext();
+	}
+	
+	get(name)
+	{
+		let i;
+		
+		for (i=0; i<this.resources.length; i++)
+		{
+			if (this.resources[i].name == name)
+			{
+				return this.resources[i];
+			}
+		}
+		
+		throw "Could not find resource.";
 	}
 }
 
@@ -59,6 +196,16 @@ class Game
 		ctx.mozImageSmoothingEnabled = false;
 		ctx.webkitImageSmoothingEnabled = false;
 		ctx.msImageSmoothingEnabled = false;
+	}
+	
+	onLoaderFinished()
+	{
+		console.log("Load finished.");
+	}
+	
+	onLoaderFailed()
+	{
+		console.log("Load failed.");
 	}
 	
 	onResize()
@@ -128,7 +275,18 @@ function init()
 {
 	_game = new Game("canvas1");
 	_stats = new Stats();
+	_loader = new Loader();
+	
 	document.body.appendChild(_stats.dom);
+	
+	_loader.enqueue("map_level1", "graphics/map_level1.json", "application/json");
+	_loader.enqueue("second_json", "graphics/second.json", "application/json");
+	_loader.enqueue("tileset2_json", "graphics/tileset2.json", "application/json");
+	
+	_loader.enqueue("second_png", "graphics/second.png", "image/png");
+	_loader.enqueue("terrain_png", "graphics/terrain_by_vexedenigma_itchio.png", "image/png");
+	
+	_loader.start(_game.onLoaderFinished.bind(_game), _game.onLoaderFailed.bind(_game));
 	
 	_game.start();
 }
