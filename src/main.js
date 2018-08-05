@@ -1,7 +1,8 @@
 "use strict";
 
-const WIDTH = 96;
-const HEIGHT = 96;
+const WIDTH = 64;
+const HEIGHT = 64;
+const FPS = 60;
 
 let _game;
 let _stats;
