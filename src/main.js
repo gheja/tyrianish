@@ -169,6 +169,11 @@ class Game
 		this.ctx = this.canvas.getContext("2d");
 		this.zoomLevel = 1;
 		this.pixelRatio = 1;
+		this.lastTickTime = 0;
+		this.ticks = 0;
+		
+		this.ax = 0;
+		this.ay = 96 * 16;
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
 		this.onResize();
@@ -240,24 +245,121 @@ class Game
 	
 	tick()
 	{
+		this.ticks++;
+		
+		if (this.ticks % 3 == 0)
+		{
+			this.ay--;
+		}
+	}
+	
+	drawImageAdvanced(sctx, sx, sy, sw, sh, dx, dy, dw, dh, rotated, mirrored, colors)
+	{
+		var dctx;
+		dctx = this.ctx;
+		
+		dctx.save();
+		dctx.translate(dx, dy);
+		dctx.translate(dw / 2, dh / 2);
+		if (rotated)
+		{
+			dctx.rotate(- Math.PI / 2);
+		}
+		if (mirrored)
+		{
+			dctx.scale(-1, 1);
+		}
+		dctx.drawImage(sctx, sx, sy, sw, sh, - dw / 2, - dh / 2, dw, dh);
+		dctx.restore();
+		
+		/*
+		if (colors)
+		{
+			this.replaceColor(dctx, dx, dy, dw, dh, [ 200, 200, 20 ], colors[0]);
+			this.replaceColor(dctx, dx, dy, dw, dh, [ 200, 200, 120 ], colors[1]);
+			this.replaceColor(dctx, dx, dy, dw, dh, [ 200, 200, 220 ], colors[2]);
+		}
+		*/
 	}
 	
 	draw()
 	{
-		let i;
+		let map, tiles_json, tiles_img, second_img, a, ax, ay, bx, by, cx, cy, playerx, playery, x, y;
 		
 		this.ctx.fillStyle = "#235";
 		this.ctx.fillRect(0, 0, _z(WIDTH), _z(HEIGHT));
 		
-		for (i=0; i<Math.random() * 10000; i++)
+		this.ctx.fillStyle = "#fff";
+		this.ctx.fillRect(_z(Math.floor(this.ticks / 3) % 64), 0, _z(1), _z(1));
+		
+		if (!_loader.finished)
 		{
-			this.ctx.fillStyle = "hsl(" + (Math.floor(Math.random() * 360)) + ", 100%, 50%)";
-			this.ctx.fillRect(0, 0, _z(Math.random() * 100), _z(Math.random() * 100));
+			return;
 		}
+		
+		map = _loader.get("map_level1").data;
+		tiles_json = _loader.get("tileset2_json").data;
+		tiles_img = _loader.get("terrain_png").image;
+		second_img = _loader.get("second_png").image;
+		
+		playerx = Math.floor(Math.sin(this.ticks / 40) * 24) + 24;
+		playery = Math.floor(Math.sin(this.ticks / 59) * 6) + 46;
+		
+		// this.ax = 0 + Math.floor(playerx / 4);
+		
+		ax = Math.floor(this.ax / 16);
+		ay = Math.floor(this.ay / 16);
+		
+		cx = this.ax % 16;
+		cy = this.ay % 16;
+		
+		
+		for (y=0; y<6; y++)
+		{
+			for (x=0; x<6; x++)
+			{
+				a = map.layers[0].data[(ay + y) * map.layers[0].width + ax + x];
+				a = a - map.tilesets[0].firstgid;
+				bx = a % tiles_json.columns;
+				by = Math.floor(a / tiles_json.columns);
+				
+				this.drawImageAdvanced(tiles_img, bx * 16, by * 16, 16, 16, _z(x * 16 - cx), _z(y * 16 - cy), _z(16), _z(16), false, false, null);
+			}
+		}
+		
+		cx = playerx;
+		cy = playery;
+		
+		this.drawImageAdvanced(second_img, 0, 0, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		
+		cx = Math.floor(Math.sin(this.ticks / 30 + 3) * 24) + 28;
+		cy = 6;
+		
+		this.drawImageAdvanced(second_img, 2 * 16, 1 * 16, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		
+		cx = Math.floor(Math.sin(this.ticks / 30 + 3.5) * 24) + 28;
+		cy = 12;
+		
+		this.drawImageAdvanced(second_img, 2 * 16, 1 * 16, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		
+		cx = Math.floor(Math.sin(this.ticks / 30 + 4) * 24) + 28;
+		cy = 18;
+		
+		this.drawImageAdvanced(second_img, 2 * 16, 1 * 16, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
 	}
 	
 	timer()
 	{
+		let i, now;
+		
+		now = (new Date()).getTime();
+		
+		while (this.lastTickTime < now)
+		{
+			this.lastTickTime += 1000 / FPS;
+			this.tick();
+		}
+		
 		_stats.begin();
 		this.draw();
 		_stats.end();
@@ -267,6 +369,7 @@ class Game
 	
 	start()
 	{
+		this.lastTickTime = (new Date()).getTime();
 		this.timer();
 	}
 }
