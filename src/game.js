@@ -54,6 +54,7 @@ class Game
 		
 		if (!_loader.finished)
 		{
+			_gfx.drawLoaderBar(_loader.getProgress());
 			return;
 		}
 		

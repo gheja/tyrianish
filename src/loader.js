@@ -40,7 +40,26 @@ class Loader
 	
 	onFetchSuccess()
 	{
+		// slow loader
+		// window.setTimeout(this.fetchNext.bind(this), 250);
 		this.fetchNext();
+	}
+	
+	getProgress()
+	{
+		let i, done;
+		
+		done = 0;
+		
+		for (i=0; i<this.resources.length; i++)
+		{
+			if (this.resources[i].done)
+			{
+				done++;
+			}
+		}
+		
+		return done / this.resources.length;
 	}
 	
 	start(successCallback, failureCallback)

@@ -113,4 +113,20 @@ class Gfx
 		this.ctx.fillStyle = "#fff";
 		this.ctx.fillRect(_z(Math.floor(this.ticks / 3) % 64), 0, _z(1), _z(1));
 	}
+	
+	drawLoaderBar(progress)
+	{
+		let a;
+		
+		a = Math.floor(progress * 42);
+		
+		this.ctx.fillStyle = "#fff";
+		this.ctx.fillRect(_z(9), _z(30), _z(42 + 4), _z(8));
+		
+		this.ctx.fillStyle = "#235";
+		this.ctx.fillRect(_z(10), _z(31), _z(42 + 2), _z(6));
+		
+		this.ctx.fillStyle = "#fff";
+		this.ctx.fillRect(_z(11), _z(32), _z(a), _z(4));
+	}
 }
