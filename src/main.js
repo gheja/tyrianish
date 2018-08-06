@@ -172,7 +172,7 @@ class Game
 		this.lastTickTime = 0;
 		this.ticks = 0;
 		
-		this.ax = 0;
+		this.ax = 16;
 		this.ay = 96 * 16;
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
