@@ -1,3 +1,5 @@
+"use strict";
+
 class Game
 {
 	constructor(canvas_id)
