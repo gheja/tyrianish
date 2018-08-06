@@ -1,12 +1,14 @@
 "use strict";
 
+let _gfx;
 let _game;
 let _stats;
 let _loader;
 
 function init()
 {
-	_game = new Game("canvas1");
+	_gfx = new Gfx("canvas1");
+	_game = new Game();
 	_stats = new Stats();
 	_loader = new Loader();
 	

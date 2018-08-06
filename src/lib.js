@@ -2,7 +2,7 @@
 
 function _z(x)
 {
-	return _game.zoomLevel * x;
+	return _gfx.zoomLevel * x;
 }
 
 function bindEvent(obj, event, callback)
