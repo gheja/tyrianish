@@ -254,10 +254,20 @@ class Game
 		}
 	}
 	
-	drawImageAdvanced(sctx, sx, sy, sw, sh, dx, dy, dw, dh, rotated, mirrored, colors)
+	drawTileAdvanced2(sctx, sx, sy, sw, sh, dx, dy, dw, dh, rotated, mirrored, colors)
 	{
-		var dctx;
+		var dctx
 		dctx = this.ctx;
+		
+		sx *= 16;
+		sy *= 16;
+		sw *= 16;
+		sh *= 16;
+		
+		dx = _z(dx);
+		dy = _z(dy);
+		dw = _z(dw);
+		dh = _z(dh);
 		
 		dctx.save();
 		dctx.translate(dx, dy);
@@ -281,6 +291,18 @@ class Game
 			this.replaceColor(dctx, dx, dy, dw, dh, [ 200, 200, 220 ], colors[2]);
 		}
 		*/
+	}
+	
+	// drawImageAdvanced(sctx, sx, sy, sw, sh, dx, dy, dw, dh, rotated, mirrored, colors)
+	// drawImageAdvanced(sctx, sx, sy, sw, sh, dx, dy, rotated, mirrored, colors)
+	drawTileAdvanced(sctx, sx, sy, dx, dy, rotated, mirrored, colors)
+	{
+		this.drawTileAdvanced2(sctx, sx, sy, 1, 1, dx, dy, 16, 16, rotated, mirrored, colors);
+	}
+	
+	drawTile(sctx, sx, sy, dx, dy)
+	{
+		this.drawTileAdvanced2(sctx, sx, sy, 1, 1, dx, dy, 16, 16, false, false, null);
 	}
 	
 	draw()
@@ -324,29 +346,29 @@ class Game
 				bx = a % tiles_json.columns;
 				by = Math.floor(a / tiles_json.columns);
 				
-				this.drawImageAdvanced(tiles_img, bx * 16, by * 16, 16, 16, _z(x * 16 - cx), _z(y * 16 - cy), _z(16), _z(16), false, false, null);
+				this.drawTile(tiles_img, bx, by, x * 16 - cx, y * 16 - cy);
 			}
 		}
 		
 		cx = playerx;
 		cy = playery;
 		
-		this.drawImageAdvanced(second_img, 0, 0, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		this.drawTile(second_img, 0, 0, cx, cy);
 		
 		cx = Math.floor(Math.sin(this.ticks / 30 + 3) * 24) + 28;
 		cy = 6;
 		
-		this.drawImageAdvanced(second_img, 2 * 16, 1 * 16, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		this.drawTile(second_img, 2, 1, cx, cy);
 		
 		cx = Math.floor(Math.sin(this.ticks / 30 + 3.5) * 24) + 28;
 		cy = 12;
 		
-		this.drawImageAdvanced(second_img, 2 * 16, 1 * 16, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		this.drawTile(second_img, 2, 1, cx, cy);
 		
 		cx = Math.floor(Math.sin(this.ticks / 30 + 4) * 24) + 28;
 		cy = 18;
 		
-		this.drawImageAdvanced(second_img, 2 * 16, 1 * 16, 16, 16, _z(cx), _z(cy), _z(16), _z(16), false, false, null);
+		this.drawTile(second_img, 2, 1, cx, cy);
 	}
 	
 	timer()
