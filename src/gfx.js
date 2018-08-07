@@ -154,4 +154,10 @@ class Gfx
 		
 		this.ctx.globalCompositeOperation = "source-over";
 	}
+	
+	drawBox(x, y, width, height, color)
+	{
+		this.ctx.fillStyle = color;
+		this.ctx.fillRect(_z(Math.round(x)), _z(Math.round(y)), _z(Math.round(width)), _z(Math.round(height)));
+	}
 }
