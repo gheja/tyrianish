@@ -1,5 +1,20 @@
 "use strict";
 
+let _gfxObjects = new Store();
+let _gameObjects = new Store();
+
+function initGfxObjects()
+{
+	let i, a;
+	
+	a = _loader.get("resources_gfxobjects_json").data;
+	
+	for (i in a)
+	{
+		_gfxObjects.add(i, new GfxObject(a[i]));
+	}
+}
+
 class Game
 {
 	constructor()
@@ -7,6 +22,9 @@ class Game
 		this.lastTickTime = 0;
 		this.ticks = 0;
 		this.canvasResizeNeeded = true;
+		
+		this.players = [];
+		this.objects = [];
 		
 		this.ax = 16;
 		this.ay = 96 * 16;
@@ -17,6 +35,20 @@ class Game
 	
 	onLoaderFinished()
 	{
+		initGfxObjects();
+		
+		this.players[0] = new GameObjectPlayerOne();
+		this.players[0].input = _inputs[1];
+		this.players[0].screenX = 16;
+		this.players[0].screenY = 56;
+		this.objects.push(this.players[0]);
+		
+		this.players[1] = new GameObjectPlayerOne();
+		this.players[1].input = _inputs[0];
+		this.players[1].screenX = 48;
+		this.players[1].screenY = 56;
+		this.objects.push(this.players[1]);
+		
 		console.log("Load finished.");
 	}
 	
@@ -32,17 +64,29 @@ class Game
 	
 	tick()
 	{
+		let i;
+		
 		this.ticks++;
+		
+		if (!_loader.finished)
+		{
+			return;
+		}
 		
 		if (this.ticks % 3 == 0)
 		{
 			this.ay--;
 		}
+		
+		for (i in this.objects)
+		{
+			this.objects[i].tick();
+		}
 	}
 	
 	draw()
 	{
-		let map, tiles_json, tiles_img, second_img, a, ax, ay, bx, by, cx, cy, playerx, playery, x, y;
+		let map, tiles_json, tiles_img, second_img, a, ax, ay, bx, by, cx, cy, playerx, playery, x, y, i;
 		
 		if (this.canvasResizeNeeded)
 		{
@@ -106,6 +150,11 @@ class Game
 		_gfx.drawVerticalBar(0, 46, 2, 18, 0.8, { h: 0, s: 1, l: 1 });
 		_gfx.drawVerticalBar(2, 52, 2, 12, 1, { h: 15, s: 0.5, l: 0.7 });
 		_gfx.drawVerticalBar(4, 52, 2, 12, 0.5, { h: 200, s: 1, l: 1 });
+		
+		for (i in this.objects)
+		{
+			this.objects[i].draw();
+		}
 	}
 	
 	timer()
