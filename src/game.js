@@ -107,6 +107,10 @@ class Game
 		cy = 18;
 		
 		_gfx.drawTile(second_img, 2, 1, cx, cy);
+		
+		_gfx.drawVerticalBar(0, 46, 2, 18, 0.8, { h: 0, s: 1, l: 1 });
+		_gfx.drawVerticalBar(2, 52, 2, 12, 1, { h: 15, s: 0.5, l: 0.7 });
+		_gfx.drawVerticalBar(4, 52, 2, 12, 0.5, { h: 200, s: 1, l: 1 });
 	}
 	
 	timer()

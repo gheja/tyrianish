@@ -129,4 +129,24 @@ class Gfx
 		this.ctx.fillStyle = "#fff";
 		this.ctx.fillRect(_z(11), _z(32), _z(a), _z(4));
 	}
+	
+	drawVerticalBar(x, y, width, height, progress, color)
+	{
+		let a;
+		
+		a = Math.round(progress * height);
+		
+		this.ctx.fillStyle = "rgba(0,0,0,0.2)";
+		this.ctx.fillRect(_z(x), _z(y), _z(width), _z(height));
+		
+		this.ctx.fillStyle = "hsla(" + (color.h) + ", " + (color.s * 100) + "%, " + (color.l * 50) + "%, 1)";
+		this.ctx.fillRect(_z(x), _z(y + height - a), _z(width), _z(a));
+		
+		this.ctx.globalCompositeOperation = "darken";
+		
+		this.ctx.fillStyle = "rgba(0,0,0,0.2)";
+		this.ctx.fillRect(_z(x + width - 1), _z(y + height - a), _z(1), _z(a));
+		
+		this.ctx.globalCompositeOperation = "source-over";
+	}
 }
