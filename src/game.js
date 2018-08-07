@@ -39,12 +39,14 @@ class Game
 		
 		this.players[0] = new GameObjectPlayerOne();
 		this.players[0].input = _inputs[1];
+		this.players[0].playerIndex = 0;
 		this.players[0].screenX = 16;
 		this.players[0].screenY = 56;
 		this.objects.push(this.players[0]);
 		
 		this.players[1] = new GameObjectPlayerOne();
 		this.players[1].input = _inputs[0];
+		this.players[1].playerIndex = 1;
 		this.players[1].screenX = 48;
 		this.players[1].screenY = 56;
 		this.objects.push(this.players[1]);
@@ -145,9 +147,13 @@ class Game
 		
 		_gfx.drawTile(second_img, 2, 1, cx, cy);
 		
-		_gfx.drawVerticalBar(0, 46, 2, 18, 0.8, { h: 0, s: 1, l: 1 });
-		_gfx.drawVerticalBar(2, 52, 2, 12, 1, { h: 15, s: 0.5, l: 0.7 });
-		_gfx.drawVerticalBar(4, 52, 2, 12, 0.5, { h: 200, s: 1, l: 1 });
+		for (i in this.objects)
+		{
+			if (this.objects[i] instanceof GameObjectPlayerOne)
+			{
+				this.objects[i].drawBars();
+			}
+		}
 		
 		for (i in this.objects)
 		{
