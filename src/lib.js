@@ -1,5 +1,30 @@
 "use strict";
 
+function _merge(obj, settings)
+{
+	let i;
+	
+	if (typeof settings != "object")
+	{
+		return;
+	}
+	
+	for (i in obj)
+	{
+		if (!obj.hasOwnProperty(i))
+		{
+			continue;
+		}
+		
+		if (!settings.hasOwnProperty(i))
+		{
+			continue;
+		}
+		
+		obj[i] = settings[i];
+	}
+}
+
 function _z(x)
 {
 	return _gfx.zoomLevel * x;
