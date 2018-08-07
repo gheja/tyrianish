@@ -110,8 +110,6 @@ class Game
 		playerx = Math.floor(Math.sin(this.ticks / 40) * 24) + 24;
 		playery = Math.floor(Math.sin(this.ticks / 59) * 6) + 46;
 		
-		// this.ax = 0 + Math.floor(playerx / 4);
-		
 		ax = Math.floor(this.ax / 16);
 		ay = Math.floor(this.ay / 16);
 		
