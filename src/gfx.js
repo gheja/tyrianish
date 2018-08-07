@@ -105,6 +105,11 @@ class Gfx
 		this.drawTileAdvanced2(sctx, sx, sy, 1, 1, dx, dy, 16, 16, false, false, null);
 	}
 	
+	drawTile2(sctx, sx, sy, sw, sh, dx, dy)
+	{
+		this.drawTileAdvanced2(sctx, sx, sy, sw, sh, dx, dy, 16, 16, false, false, null);
+	}
+	
 	clear()
 	{
 		this.ctx.fillStyle = "#235";
