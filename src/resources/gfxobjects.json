@@ -1,0 +1,11 @@
+{
+	"player1": {
+		"imageName": "second_png",
+		"imageX": 0,
+		"imageY": 0,
+		"imageWidth": 16,
+		"imageHeight": 16,
+		"screenPadX": 8,
+		"screenPadY": 8
+	}
+}
