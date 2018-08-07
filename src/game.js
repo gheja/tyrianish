@@ -88,11 +88,6 @@ class Game
 			}
 		}
 		
-		cx = playerx;
-		cy = playery;
-		
-		_gfx.drawTile(second_img, 0, 0, cx, cy);
-		
 		cx = Math.floor(Math.sin(this.ticks / 30 + 3) * 24) + 28;
 		cy = 6;
 		
