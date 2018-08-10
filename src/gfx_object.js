@@ -11,6 +11,10 @@ class GfxObject
 		this.imageHeight = 0;
 		this.screenPadX = 0;
 		this.screenPadY = 0;
+		this.hitboxX = 0;
+		this.hitboxY = 0;
+		this.hitboxWidth = 0;
+		this.hitboxHeight = 0;
 		
 		_merge(this, settings);
 		

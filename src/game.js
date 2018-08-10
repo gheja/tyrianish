@@ -33,6 +33,69 @@ class Game
 		bindEvent(window, "oreintationchange", this.onResize.bind(this));
 	}
 	
+	doCollisionHandling(a, b)
+	{
+		if (a instanceof GameObjectProjectile && b instanceof GameObjectProjectile)
+		{
+			return;
+		}
+		
+		if (a instanceof GameObjectProjectile)
+		{
+			b.handleHitBy(a);
+		}
+		else
+		{
+			a.handleHitBy(b);
+		}
+	}
+	
+	doHitboxCheck()
+	{
+		let i, j, max, a, b;
+		
+		max = this.objects.length;
+		
+		for (i=0; i<max; i++)
+		{
+			this.objects[i].updateHitCheckArray();
+		}
+		
+		for (i=0; i<max; i++)
+		{
+			a = this.objects[i];
+			
+			if (!a.hitCheckArrayValid)
+			{
+				continue;
+			}
+			
+			for (j=i+1; j<max; j++)
+			{
+				b = this.objects[j];
+				
+				if (!b.hitCheckArrayValid)
+				{
+					continue;
+				}
+				
+				// no friendly fire
+				if (a.hitCheckGroup == b.hitCheckGroup)
+				{
+					continue;
+				}
+				
+				if (a.hitCheckArray[0] <= b.hitCheckArray[2] &&
+					a.hitCheckArray[2] >= b.hitCheckArray[0] &&
+					a.hitCheckArray[1] <= b.hitCheckArray[3] &&
+					a.hitCheckArray[3] >= b.hitCheckArray[1])
+				{
+					this.doCollisionHandling(a, b);
+				}
+			}
+		}
+	}
+	
 	onLoaderFinished()
 	{
 		initGfxObjects();
@@ -75,15 +138,14 @@ class Game
 			return;
 		}
 		
-		if (this.ticks % 3 == 0)
-		{
-			this.ay--;
-		}
+		this.ay -= _flowSpeed / FPS;
 		
 		for (i in this.objects)
 		{
 			this.objects[i].tick();
 		}
+		
+		this.doHitboxCheck();
 	}
 	
 	draw()
@@ -112,11 +174,11 @@ class Game
 		playerx = Math.floor(Math.sin(this.ticks / 40) * 24) + 24;
 		playery = Math.floor(Math.sin(this.ticks / 59) * 6) + 46;
 		
-		ax = Math.floor(this.ax / 16);
-		ay = Math.floor(this.ay / 16);
+		ax = Math.floor(Math.floor(this.ax) / 16);
+		ay = Math.floor(Math.floor(this.ay) / 16);
 		
-		cx = this.ax % 16;
-		cy = this.ay % 16;
+		cx = Math.floor(this.ax) % 16;
+		cy = Math.floor(this.ay) % 16;
 		
 		
 		for (y=0; y<6; y++)

@@ -5,6 +5,7 @@ let _game;
 let _stats;
 let _loader;
 let _inputs;
+let _flowSpeed;
 
 function init()
 {
@@ -12,6 +13,8 @@ function init()
 	_game = new Game();
 	_stats = new Stats();
 	_loader = new Loader();
+	
+	_flowSpeed = 20;
 	
 	_inputs = [];
 	_inputs.push(new InputKeyboard());

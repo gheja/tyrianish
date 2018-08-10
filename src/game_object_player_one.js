@@ -1,36 +1,37 @@
 "use strict";
 
-class GameObjectPlayerOne extends GameObject
+class GameObjectPlayerOne extends GameObjectShip
 {
-	constructor()
+	constructor(settings)
 	{
 		super();
 		
 		this.gfxObject = _gfxObjects.get("player1");
-		this.speedX = 0;
-		this.speedY = 0;
-		this.speedMaxX = 4; // pixels per tick, TODO: pixels per second?
-		this.speedMaxY = 4; // pixels per tick, TODO: pixels per second?
-		this.speedReduction = 0.9;
 		
+		this.hitCheckEnabled = true;
+		this.hitCheckGroup = 1;
 		this.highlightTicksLeft = 60;
 		this.playerIndex = 0;
+		this.shootTicksLeft = 0;
 		
-		this.power = 0;
-		this.shield = 0.5;
-		this.armor = 0.5;
-		
-		this.stats = {
-			powerMax: 1,
-			shieldMax: 1,
-			armorMax: 1,
+		this.stats.powerMax = 1;
+		this.stats.shieldMax = 1;
+		this.stats.armorMax = 1;
 			
-			powerRechargeSpeed: 1, // per second
-			shieldRechargeSpeed: 0.2, // per second
-			armorRechargeSpeed: 0 // per second
-		};
+		this.stats.powerRechargeSpeed = 1;
+		this.stats.shieldRechargeSpeed = 0.2;
+		this.stats.armorRechargeSpeed = 0;
 		
 		this.input = _inputs[0];
+		
+		_merge(this, settings);
+	}
+	
+	shoot()
+	{
+		this.shootTicksLeft = 10;
+		this.power -= 0.2;
+		_game.objects.push(new GameObjectProjectile({ screenX: this.screenX, screenY: this.screenY, speedX: 0, speedY: -3, hitCheckGroup: this.hitCheckGroup }));
 	}
 	
 	tick()
@@ -47,10 +48,7 @@ class GameObjectPlayerOne extends GameObject
 			this.highlightTicksLeft--;
 		}
 		
-		this.power = clamp(0, this.stats.powerMax, this.power + this.stats.powerRechargeSpeed / FPS);
-		this.shield = clamp(0, this.stats.shieldMax, this.shield + this.stats.shieldRechargeSpeed / FPS);
-		this.armor = clamp(0, this.stats.armorMax, this.armor + this.stats.armorRechargeSpeed / FPS);
-		
+		this.rechargeTick();
 		
 		a = this.input.query();
 		
@@ -62,6 +60,18 @@ class GameObjectPlayerOne extends GameObject
 		
 		this.screenX = clamp(0, WIDTH, this.screenX + this.speedX);
 		this.screenY = clamp(0, HEIGHT, this.screenY + this.speedY);
+		
+		if (this.shootTicksLeft == 0)
+		{
+			if (a.shoot)
+			{
+				this.shoot();
+			}
+		}
+		else
+		{
+			this.shootTicksLeft--;
+		}
 	}
 	
 	drawBars()
