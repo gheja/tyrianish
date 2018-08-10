@@ -89,7 +89,7 @@ class InputKeyboard extends Input
 			result.x += 1;
 		}
 		
-		result.shoot = this.keys["shoot"].pressed && this.keys["shoot"].newEvent;
+		result.shoot = this.keys["shoot"].pressed;
 		result.menu = this.keys["menu"].pressed && this.keys["menu"].newEvent;
 		
 		this.clearNewFlags();
