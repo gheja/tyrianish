@@ -114,6 +114,12 @@ class Game
 		this.players[1].screenY = 56;
 		this.objects.push(this.players[1]);
 		
+		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 0, screenX: 32, screenY: -10 }));
+		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 50, screenX: 32, screenY: -20 }));
+		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 100, screenX: 32, screenY: -30 }));
+		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 150, screenX: 32, screenY: -40 }));
+		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 200, screenX: 32, screenY: -50, gfxObject: _gfxObjects.get("enemy2") }));
+		
 		console.log("Load finished.");
 	}
 	
