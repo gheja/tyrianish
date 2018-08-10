@@ -29,5 +29,10 @@ class GfxObject
 	draw(screenX, screenY)
 	{
 		_gfx.drawTileAdvanced2(this.image, this.imageX, this.imageY, this.imageWidth / 16, this.imageHeight / 16, screenX - this.screenPadX, screenY - this.screenPadY, this.imageWidth, this.imageHeight, false, false, null);
+		
+		if (_debug.hitboxes)
+		{
+			_gfx.drawBox(screenX - this.screenPadX + this.hitboxX, screenY - this.screenPadY + this.hitboxY, this.hitboxWidth, this.hitboxHeight, "rgba(255,255,0,0.5)");
+		}
 	}
 }
