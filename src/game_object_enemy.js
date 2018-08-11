@@ -41,7 +41,7 @@ class GameObjectEnemy extends GameObjectShip
 			armorRechargeSpeed: 0 // per second
 		};
 		
-		this.input = _inputs[0];
+		this.explosionAnimations = [ "explosion2" ];
 		
 		_merge(this, settings);
 	}

@@ -21,6 +21,8 @@ class GameObject
 		this.hitCheckArrayValid = false;
 		this.hitCheckArray = [ 0, 0, 0, 0 ];
 		
+		this.explosionAnimations = [ "explosion1" ];
+		
 		_merge(this, settings);
 	}
 	
@@ -41,6 +43,10 @@ class GameObject
 	
 	destroy()
 	{
+		if (this.explosionAnimations != null)
+		{
+			_game.objects.push(new GameObjectParticle({ gfxObject: _gfxObjects.get(pick(this.explosionAnimations)), hitCheckEnabled: false, screenX: this.screenX, screenY: this.screenY }));
+		}
 		this.hitCheckArrayValid = false;
 		this.destroyed = true;
 	}
@@ -78,6 +84,6 @@ class GameObject
 			return;
 		}
 		
-		this.gfxObject.draw(Math.round(this.screenX), Math.round(this.screenY));
+		this.gfxObject.draw(Math.round(this.screenX), Math.round(this.screenY), this.ticks);
 	}
 }
