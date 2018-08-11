@@ -21,6 +21,8 @@ class Gfx
 	{
 		let scale, w, h, dpr, bsr, pixelRatio, tmp;
 		
+/*
+		// added viewport scale meta tag in html - no longer needed?
 		dpr = window.devicePixelRatio || 1;
 		
 		bsr = this.ctx.webkitBackingStorePixelRatio ||
@@ -30,6 +32,8 @@ class Gfx
 			this.ctx.backingStorePixelRatio || 1;
 		
 		pixelRatio = dpr / bsr;
+*/
+		pixelRatio = 1;
 		
 		this.zoomLevel = Math.max(Math.min(Math.floor(window.innerWidth / WIDTH), Math.floor(window.innerHeight / HEIGHT)), 0.5);
 		
