@@ -12,6 +12,7 @@ class GameObject
 		this.mapY = 0;
 		this.gfxObject = null;
 		this.destroyed = false;
+		this.ticks = 0;
 		
 		this.hitpoints = 1;
 		
@@ -67,6 +68,7 @@ class GameObject
 	
 	tick()
 	{
+		this.ticks++;
 	}
 	
 	draw()
