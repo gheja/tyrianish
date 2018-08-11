@@ -35,6 +35,16 @@ function clamp(min, max, x)
 	return Math.min(Math.max(x, min), max);
 }
 
+function pick(a)
+{
+	if (typeof a == "object")
+	{
+		return a[Math.floor(Math.random() * a.length)];
+	}
+	
+	return a;
+}
+
 function bindEvent(obj, event, callback)
 {
 	if (obj.addEventListener)
