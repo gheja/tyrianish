@@ -164,4 +164,12 @@ class Gfx
 		this.ctx.fillStyle = color;
 		this.ctx.fillRect(_z(Math.round(x)), _z(Math.round(y)), _z(Math.round(width)), _z(Math.round(height)));
 	}
+	
+	goFullScreen()
+	{
+		// based on https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
+		
+		let d = window.document.documentElement;
+		(d.requestFullscreen || d.mozRequestFullScreen || d.webkitRequestFullScreen || d.msRequestFullscreen).call(d);
+	}
 }
