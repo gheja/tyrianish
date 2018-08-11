@@ -16,6 +16,10 @@ class GfxObject
 		this.hitboxWidth = 0;
 		this.hitboxHeight = 0;
 		
+		this.animated = false;
+		this.animationFrames = 0;
+		this.animationFrameTicks = 0;
+		
 		_merge(this, settings);
 		
 		this.image = null;
@@ -26,13 +30,48 @@ class GfxObject
 		}
 	}
 	
-	draw(screenX, screenY)
+	draw(screenX, screenY, ticks = 0)
 	{
-		_gfx.drawTileAdvanced2(this.image, this.imageX, this.imageY, this.imageWidth / 16, this.imageHeight / 16, screenX - this.screenPadX, screenY - this.screenPadY, this.imageWidth, this.imageHeight, false, false, null);
+		let a;
+		
+		if (this.animated)
+		{
+			if (ticks > this.animationFrameTicks * this.animationFrames)
+			{
+				return;
+			}
+			
+			// a = this.imageY + Math.floor(ticks / this.animationFrameTicks) % this.animationFrames;
+			a = this.imageY + Math.floor(ticks / this.animationFrameTicks);
+			
+			if (a > this.animationFrames)
+			{
+				return;
+			}
+		}
+		else
+		{
+			a = this.imageY;
+		}
+		
+		_gfx.drawTileAdvanced2(this.image, this.imageX, a, this.imageWidth / 16, this.imageHeight / 16, screenX - this.screenPadX, screenY - this.screenPadY, this.imageWidth, this.imageHeight, false, false, null);
 		
 		if (_debug.hitboxes)
 		{
 			_gfx.drawBox(screenX - this.screenPadX + this.hitboxX, screenY - this.screenPadY + this.hitboxY, this.hitboxWidth, this.hitboxHeight, "rgba(255,255,0,0.5)");
 		}
+	}
+	
+	animationFinished(ticks)
+	{
+		if (this.animated)
+		{
+			if (ticks < this.animationFrameTicks * this.animationFrames)
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }
