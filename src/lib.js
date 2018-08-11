@@ -45,6 +45,20 @@ function pick(a)
 	return a;
 }
 
+function _getArrayKeys(a, keys)
+{
+	let i, result;
+	
+	result = {};
+	
+	for (i in keys)
+	{
+		result[keys[i]] = a[keys[i]];
+	}
+	
+	return result;
+}
+
 function bindEvent(obj, event, callback)
 {
 	if (obj.addEventListener)
