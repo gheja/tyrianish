@@ -133,9 +133,91 @@ class Game
 		this.canvasResizeNeeded = true;
 	}
 	
+	getObjectAt(x, y)
+	{
+		let i, o, distance;
+		
+		for (i=0; i<this.objects.length; i++)
+		{
+			o = this.objects[i];
+			
+			if (o.destroyed)
+			{
+				continue;
+			}
+			
+			distance = Math.sqrt(Math.pow(o.screenX - x, 2) + Math.pow(o.screenY - y, 2));
+			
+			if (distance < 2)
+			{
+				return o;
+			}
+		}
+		
+		return null;
+	}
+	
+	editTick()
+	{
+		let a, b, c;
+		
+		a = _inputs[0].query();
+		
+		if (a.x == 1)
+		{
+			_debug.editX += 1 / 3;
+		}
+		else if (a.x == -1)
+		{
+			_debug.editX -= 1 / 3;
+		}
+		
+		if (a.y == 1)
+		{
+			_debug.editY += 1 / 3;
+		}
+		else if (a.y == -1)
+		{
+			_debug.editY -= 1 / 3;
+		}
+		
+		c = this.getObjectAt(Math.round(_debug.editX - this.ax), Math.round(_debug.editY - this.ay));
+		
+		_debug.editHoveredObject = c;
+		
+		if (a.shoot)
+		{
+			_debug.editSelectedObject = _debug.editHoveredObject;
+		}
+		
+		_debug.editX = clamp(this.ax, this.ax + WIDTH, _debug.editX);
+		_debug.editY = clamp(this.ay, this.ay + HEIGHT, _debug.editY);
+	}
+	
 	tick()
 	{
 		let i;
+		
+		if (_debug.editing)
+		{
+			this.editTick();
+			return;
+		}
+		
+		if (_debug.paused)
+		{
+			return;
+		}
+		
+		if (_debug.slow)
+		{
+			_debug.slowCounter++;
+			
+			if (_debug.slowCounter % 10 != 0)
+			{
+				return;
+			}
+		}
 		
 		this.ticks++;
 		
@@ -197,6 +279,18 @@ class Game
 			}
 		}
 		
+		if (_debug.editing)
+		{
+			for (x=0; x<18; x++)
+			{
+				for (y=0; y<20; y++)
+				{
+					_gfx.drawBox(2 + x * 4 - cx, y * 4 - cy, 1, 1, "rgba(255, 255, 255, 0.2)");
+				}
+			}
+			
+		}
+		
 		for (i in this.objects)
 		{
 			if (this.objects[i] instanceof GameObjectPlayerOne)
@@ -208,6 +302,25 @@ class Game
 		for (i in this.objects)
 		{
 			this.objects[i].draw();
+		}
+		
+		if (_debug.editing)
+		{
+			a = _debug.editHoveredObject;
+			
+			if (a)
+			{
+				_gfx.drawBox(a.screenX - a.gfxObject.screenPadX + a.gfxObject.hitboxX, a.screenY - a.gfxObject.screenPadY + a.gfxObject.hitboxY, a.gfxObject.hitboxWidth, a.gfxObject.hitboxHeight, "rgba(0,255,0,0.5)");
+			}
+			
+			a = _debug.editSelectedObject;
+			
+			if (a)
+			{
+				_gfx.drawBox(a.screenX - a.gfxObject.screenPadX + a.gfxObject.hitboxX, a.screenY - a.gfxObject.screenPadY + a.gfxObject.hitboxY, a.gfxObject.hitboxWidth, a.gfxObject.hitboxHeight, "rgba(255,255,255,0.5)");
+			}
+			
+			_gfx.drawBox(_debug.editX - 1 - this.ax, _debug.editY - 1 - this.ay, 3, 3, "rgba(255, 255, 0, 0.6)");
 		}
 	}
 	

@@ -116,6 +116,15 @@ class Gfx
 	
 	clear()
 	{
+		if (_debug.editing && !document.body.classList.contains("editing"))
+		{
+			document.body.classList.add("editing");
+		}
+		else if (!_debug.editing && document.body.classList.contains("editing"))
+		{
+			document.body.classList.remove("editing");
+		}
+		
 		this.ctx.fillStyle = "#235";
 		this.ctx.fillRect(0, 0, _z(WIDTH), _z(HEIGHT));
 		

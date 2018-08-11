@@ -11,6 +11,11 @@ body
 	background: #222;
 }
 
+body.editing
+{
+	background: #411;
+}
+
 #canvas1
 {
 	position: absolute;

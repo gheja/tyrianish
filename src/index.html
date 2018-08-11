@@ -25,5 +25,15 @@
 	</head>
 	<body>
 		<canvas id="canvas1"></canvas>
+		<div id="commands">
+			<a href="#" onclick="_debug.paused = !_debug.paused; return false;">Pause</a>
+			<a href="#" onclick="_debug.slow = !_debug.slow; return false;">Slow</a>
+			<a href="#" onclick="_debug.editing = !_debug.editing; return false;">Edit</a>
+			<a href="#" onclick="_game.objects[0].restart(); return false;">Restart P1</a>
+			<a href="#" onclick="_game.objects[1].restart(); return false;">Restart P2</a>
+			<a href="#" onclick="_debug.hitboxes = !_debug.hitboxes; return false;">Hitboxes</a>
+			<a href="#" onclick="_debug.paths = !_debug.paths; return false;">Paths</a>
+			<a href="#" onclick="_gfx.goFullScreen(); return false;">Full screen</a>
+		</div>
 	</body>
 </html>
