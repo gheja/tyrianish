@@ -100,6 +100,38 @@ class GameObjectEnemy extends GameObjectShip
 		this.screenY += this.speedY;
 	}
 	
+	drawPath()
+	{
+		let a, points, i;
+		
+		a = _getArrayKeys(this, [ "screenX", "screenY", "speedX", "speedY", "moveTicks", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
+		
+		for (i=0; i<300; i++)
+		{
+			this.autopilotTick();
+			
+			if (i % 10 < 5)
+			{
+				continue;
+			}
+			
+			if (this.startDelayTicksLeft > 0)
+			{
+				_gfx.drawBox(this.screenX, this.screenY, 1, 1, "rgba(120, 120, 255, 0.5)");
+			}
+			else if (this.fleeDelayTicksLeft > 0)
+			{
+				_gfx.drawBox(this.screenX, this.screenY, 1, 1, "rgba(255, 255, 255, 0.5)");
+			}
+			else
+			{
+				_gfx.drawBox(this.screenX, this.screenY, 1, 1, "rgba(255, 120, 120, 0.5)");
+			}
+		}
+		
+		_merge(this, a);
+	}
+	
 	tick()
 	{
 		this.autopilotTick();
@@ -110,6 +142,18 @@ class GameObjectEnemy extends GameObjectShip
 		else
 		{
 			this.shootTicksLeft--;
+		}
+	}
+	
+	draw()
+	{
+		let i;
+		
+		super.draw();
+		
+		if (_debug.paths)
+		{
+			this.drawPath();
 		}
 	}
 }
