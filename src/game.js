@@ -156,7 +156,7 @@ class Game
 	
 	draw()
 	{
-		let map, tiles_json, tiles_img, second_img, a, ax, ay, bx, by, cx, cy, playerx, playery, x, y, i;
+		let map, tiles_json, tiles_img, second_img, a, ax, ay, bx, by, cx, cy, x, y, i;
 		
 		if (this.canvasResizeNeeded)
 		{
@@ -177,9 +177,6 @@ class Game
 		tiles_img = _loader.get("terrain_png").image;
 		second_img = _loader.get("second_png").image;
 		
-		playerx = Math.floor(Math.sin(this.ticks / 40) * 24) + 24;
-		playery = Math.floor(Math.sin(this.ticks / 59) * 6) + 46;
-		
 		ax = Math.floor(Math.floor(this.ax) / 16);
 		ay = Math.floor(Math.floor(this.ay) / 16);
 		
@@ -199,21 +196,6 @@ class Game
 				_gfx.drawTile(tiles_img, bx, by, x * 16 - cx, y * 16 - cy);
 			}
 		}
-		
-		cx = Math.floor(Math.sin(this.ticks / 30 + 3) * 24) + 28;
-		cy = 6;
-		
-		_gfx.drawTile(second_img, 2, 1, cx, cy);
-		
-		cx = Math.floor(Math.sin(this.ticks / 30 + 3.5) * 24) + 28;
-		cy = 12;
-		
-		_gfx.drawTile(second_img, 2, 1, cx, cy);
-		
-		cx = Math.floor(Math.sin(this.ticks / 30 + 4) * 24) + 28;
-		cy = 18;
-		
-		_gfx.drawTile(second_img, 2, 1, cx, cy);
 		
 		for (i in this.objects)
 		{
