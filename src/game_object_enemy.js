@@ -53,10 +53,8 @@ class GameObjectEnemy extends GameObjectShip
 		_game.objects.push(new GameObjectProjectile({ screenX: this.screenX, screenY: this.screenY, speedX: 0, speedY: -3 }));
 	}
 	
-	tick()
+	autopilotTick()
 	{
-		let a;
-		
 		if (this.startDelayTicksLeft > 0)
 		{
 			this.startDelayTicksLeft--;
@@ -100,6 +98,11 @@ class GameObjectEnemy extends GameObjectShip
 		
 		this.screenX += this.speedX;
 		this.screenY += this.speedY;
+	}
+	
+	tick()
+	{
+		this.autopilotTick();
 		
 		if (this.shootTicksLeft == 0)
 		{
