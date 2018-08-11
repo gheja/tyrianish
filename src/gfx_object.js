@@ -59,6 +59,7 @@ class GfxObject
 		if (_debug.hitboxes)
 		{
 			_gfx.drawBox(screenX - this.screenPadX + this.hitboxX, screenY - this.screenPadY + this.hitboxY, this.hitboxWidth, this.hitboxHeight, "rgba(255,255,0,0.5)");
+			_gfx.drawBox(screenX, screenY, 1, 1, "rgba(255,0,0,0.5)");
 		}
 	}
 	
