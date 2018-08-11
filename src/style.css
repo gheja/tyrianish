@@ -14,3 +14,31 @@ body
 {
 	position: absolute;
 }
+
+
+#commands
+{
+	position: fixed;
+	top: 50px;
+	left: 0;
+	width: 80px;
+}
+
+#commands a
+{
+	display: block;
+	margin-bottom: 2px;
+	padding: 2px;
+	background: #333;
+	text-align: center;
+	color: #ccc;
+	font-family: arial;
+	font-size: 7pt;
+	text-decoration: none;
+}
+
+#commands a:hover
+{
+	background: #037;
+	color: #fff;
+}
