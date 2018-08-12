@@ -1,12 +1,75 @@
 {
+	"_defaults": {
+		"title": "unnamed",
+		"power": 1.0,
+		"shootInterval": 60,
+		"sweepEnabled": false,
+		"sweepSteps": 0,
+		"sweepDistance": 0,
+		"projectiles": [
+		]
+	},
 	"cannon": {
 		"title": "Cannon 1",
+		"power": 0.2,
+		"shootInterval": 9,
 		"projectiles": [
 			{
+				"padX": 0,
+				"padY": -7,
 				"speedX": 0,
-				"speedY": -3,
+				"speedY": -2,
 				"gfxObjectName": "cannon_projectile1",
-				"damage": 1
+				"damage": 0.5
+			}
+		]
+	},
+	"turbo": {
+		"title": "Turbo cannon",
+		"power": 0.1,
+		"shootInterval": 4,
+		"sweepEnabled": true,
+		"sweepSteps": 1,
+		"sweepDistance": 2,
+		"projectiles": [
+			{
+				"padX": 0,
+				"padY": -7,
+				"speedX": 0,
+				"speedY": -2,
+				"gfxObjectName": "cannon_projectile2",
+				"damage": 0.2
+			}
+		]
+	},
+	"balls": {
+		"title": "Fireball cannon",
+		"power": 0.3,
+		"shootInterval": 10,
+		"projectiles": [
+			{
+				"padX": 0,
+				"padY": -7,
+				"speedX": 0,
+				"speedY": -1,
+				"gfxObjectName": "cannon_projectile3",
+				"damage": 0.5
+			},
+			{
+				"padX": 0,
+				"padY": -5,
+				"speedX": 0.25,
+				"speedY": -1,
+				"gfxObjectName": "cannon_projectile3",
+				"damage": 0.5
+			},
+			{
+				"padX": 0,
+				"padY": -5,
+				"speedX": -0.25,
+				"speedY": -1,
+				"gfxObjectName": "cannon_projectile3",
+				"damage": 0.5
 			}
 		]
 	}
