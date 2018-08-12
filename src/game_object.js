@@ -45,7 +45,7 @@ class GameObject
 	{
 		if (this.explosionAnimations != null)
 		{
-			_game.objects.push(new GameObjectParticle({ gfxObject: _gfxObjects.get(pick(this.explosionAnimations)), hitCheckEnabled: false, screenX: this.screenX, screenY: this.screenY }));
+			_game.objects.push(new GameObjectParticle({ gfxObject: _gfxObjects.get(pick(this.explosionAnimations)), hitCheckEnabled: false, screenX: Math.floor(this.screenX), screenY: Math.floor(this.screenY) }));
 		}
 		this.hitCheckArrayValid = false;
 		this.destroyed = true;
