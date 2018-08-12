@@ -151,7 +151,7 @@ class GameObjectEnemy extends GameObjectShip
 		
 		super.draw();
 		
-		if (_debug.paths)
+		if (_debug.paths || _debug.editSelectedObject == this)
 		{
 			this.drawPath();
 		}
