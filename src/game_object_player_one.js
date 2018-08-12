@@ -83,6 +83,8 @@ class GameObjectPlayerOne extends GameObjectShip
 	{
 		let a;
 		
+		this.ticks++;
+		
 		if (!this.input.active)
 		{
 			return false;

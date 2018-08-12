@@ -135,6 +135,8 @@ class GameObjectEnemy extends GameObjectShip
 	
 	tick()
 	{
+		this.ticks++;
+		
 		this.autopilotTick();
 		
 		if (this.shootTicksLeft == 0)
