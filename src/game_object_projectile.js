@@ -4,14 +4,18 @@ class GameObjectProjectile extends GameObject
 {
 	constructor(settings)
 	{
-		super(settings);
+		super();
 		
-		this.gfxObject = _gfxObjects.get("cannon_projectile1");
+		this.gfxObjectName = "cannon_projectile1";
 		this.damage = 0.5;
 		this.hitCheckEnabled = true;
 		this.explosionAnimations = [ "pling1", "pling2", "pling3" ];
 		
 		this.hitpoints = this.damage;
+		
+		_merge(this, settings);
+		
+		this.gfxObject = _gfxObjects.get(this.gfxObjectName);
 	}
 	
 	tick()
