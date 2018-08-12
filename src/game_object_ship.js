@@ -14,6 +14,7 @@ class GameObjectShip extends GameObject
 		this.hitCheckGroup = 0;
 		this.flowing = true;
 		this.fleeing = false;
+		this.isEnemy = false;
 		this.moveTicks = 0;
 		this.fleeDelayTicksLeft = 180;
 		this.startDelayTicksLeft = 5;

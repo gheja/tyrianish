@@ -15,6 +15,7 @@ class GameObjectEnemy extends GameObjectShip
 		this.speedMaxY = 4; // pixels per tick, TODO: pixels per second?
 		this.speedReduction = 0.9;
 		
+		this.isEnemy = true;
 		this.hitCheckEnabled = true;
 		this.hitCheckGroup = 0;
 		this.flowing = true;

@@ -13,6 +13,7 @@ class GameObjectPlayerOne extends GameObjectShip
 		
 		this.gfxObject = _gfxObjects.get("player1");
 		
+		this.isEnemy = false;
 		this.hitCheckEnabled = true;
 		this.hitCheckGroup = 1;
 		this.highlightTicksLeft = 0;
