@@ -90,6 +90,32 @@
 		"hitboxWidth": 3,
 		"hitboxHeight": 8
 	},
+	"cannon_projectile2": {
+		"imageName": "second_png",
+		"imageX": 0,
+		"imageY": 0,
+		"imageWidth": 16,
+		"imageHeight": 16,
+		"screenPadX": 8,
+		"screenPadY": 5,
+		"hitboxX": 7,
+		"hitboxY": 5,
+		"hitboxWidth": 3,
+		"hitboxHeight": 8
+	},
+	"cannon_projectile3": {
+		"imageName": "second_png",
+		"imageX": 5,
+		"imageY": 1,
+		"imageWidth": 16,
+		"imageHeight": 16,
+		"screenPadX": 8,
+		"screenPadY": 5,
+		"hitboxX": 7,
+		"hitboxY": 5,
+		"hitboxWidth": 3,
+		"hitboxHeight": 8
+	},
 	"enemy1": {
 		"imageName": "second_png",
 		"imageX": 0,
