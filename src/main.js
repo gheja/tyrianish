@@ -6,6 +6,7 @@ let _stats;
 let _loader;
 let _inputs;
 let _flowSpeed;
+let _editor;
 
 function init()
 {
@@ -13,6 +14,7 @@ function init()
 	_game = new Game();
 	_stats = new Stats();
 	_loader = new Loader();
+	_editor = new Editor();
 	
 	_flowSpeed = 20;
 	

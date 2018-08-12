@@ -48,3 +48,40 @@ body.editing
 	background: #037;
 	color: #fff;
 }
+
+
+#editor_controls
+{
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 120px;
+	background: rgba(0,0,0,0.5);
+	color: #fff;
+	font-family: arial;
+	font-size: 7pt;
+}
+
+#editor_controls a
+{
+	display: block;
+	margin-bottom: 2px;
+	padding: 2px;
+	background: #422;
+	text-align: center;
+	color: #ccc;
+	font-family: arial;
+	font-size: 7pt;
+	text-decoration: none;
+}
+
+#editor_controls a:hover
+{
+	background: #732;
+	color: #fff;
+}
+
+#editor_controls select
+{
+	width: 100%;
+}

@@ -19,6 +19,7 @@
 		<script src="game_object_particle.js" type="text/javascript"></script>
 		<script src="loader.js" type="text/javascript"></script>
 		<script src="resource.js" type="text/javascript"></script>
+		<script src="editor.js" type="text/javascript"></script>
 		<script src="main.js" type="text/javascript"></script>
 		<script src="stats.min.js" type="text/javascript"></script>
 		<link type="text/css" rel="stylesheet" href="style.css" />
@@ -28,12 +29,20 @@
 		<div id="commands">
 			<a href="#" onclick="_debug.paused = !_debug.paused; return false;">Pause</a>
 			<a href="#" onclick="_debug.slow = !_debug.slow; return false;">Slow</a>
-			<a href="#" onclick="_debug.editing = !_debug.editing; return false;">Edit</a>
+			<a href="#" onclick="_editor.toggle(); return false;">Edit</a>
 			<a href="#" onclick="_game.objects[0].restart(); return false;">Restart P1</a>
 			<a href="#" onclick="_game.objects[1].restart(); return false;">Restart P2</a>
 			<a href="#" onclick="_debug.hitboxes = !_debug.hitboxes; return false;">Hitboxes</a>
 			<a href="#" onclick="_debug.paths = !_debug.paths; return false;">Paths</a>
 			<a href="#" onclick="_gfx.goFullScreen(); return false;">Full screen</a>
+		</div>
+		<div id="editor_controls">
+			<div id="editor_coordinates">0, 0</div>
+			
+			<select id="editor_mode">
+				<option value="place">place</option>
+				<option value="edit">edit</option>
+			</select>
 		</div>
 	</body>
 </html>
