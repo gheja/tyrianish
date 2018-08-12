@@ -70,3 +70,8 @@ function bindEvent(obj, event, callback)
 		obj.attachEvent("on" + event, callback);
 	}
 }
+
+function uniqueId()
+{
+	return (new Date()).getTime() + "" + Math.floor(Math.random() * 1000000);
+}
