@@ -31,6 +31,8 @@ function init()
 	_loader.enqueue("second_png", "graphics/second.png", "image/png");
 	_loader.enqueue("terrain_png", "graphics/terrain_by_vexedenigma_itchio.png", "image/png");
 	
+	_loader.enqueue("level_json", "resources/level_test1.json", "application/json");
+	
 	_loader.start(_game.onLoaderFinished.bind(_game), _game.onLoaderFailed.bind(_game));
 	
 	_game.start();
