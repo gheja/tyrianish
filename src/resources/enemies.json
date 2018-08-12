@@ -1,0 +1,12 @@
+{
+	"enemy1": {
+		"title": "Enemy 1",
+		"armor": 1,
+		"shield": 1,
+		"weaponName": "cannon1",
+		"weaponLevel": 1,
+		"imageName": "second_png",
+		"imageX": 0,
+		"imageY": 1
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"cannon": {
+		"title": "Cannon 1",
+		"projectiles": [
+			{
+				"speedX": 0,
+				"speedY": -3,
+				"gfxObjectName": "cannon_projectile1",
+				"damage": 1
+			}
+		]
+	}
+}

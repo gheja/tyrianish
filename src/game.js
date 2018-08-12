@@ -1,9 +1,11 @@
 "use strict";
 
 let _gfxObjects = new Store();
+let _enemyTemplates = new Store();
+let _weaponTemplates = new Store();
 let _gameObjects = new Store();
 
-function initGfxObjects()
+function initObjects()
 {
 	let i, a;
 	
@@ -12,6 +14,20 @@ function initGfxObjects()
 	for (i in a)
 	{
 		_gfxObjects.add(i, new GfxObject(a[i]));
+	}
+	
+	a = _loader.get("enemies_json").data;
+	
+	for (i in a)
+	{
+		_enemyTemplates.add(i, a[i]);
+	}
+	
+	a = _loader.get("weapons_json").data;
+	
+	for (i in a)
+	{
+		_weaponTemplates.add(i, a[i]);
 	}
 }
 
@@ -118,7 +134,7 @@ class Game
 	
 	onLoaderFinished()
 	{
-		initGfxObjects();
+		initObjects();
 		
 		this.players[0] = new GameObjectPlayerOne();
 		this.players[0].input = _inputs[1];
