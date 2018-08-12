@@ -29,8 +29,28 @@ class Game
 		this.ax = 16;
 		this.ay = 96 * 16;
 		
+		this.level = null;
+		
 		bindEvent(window, "resize", this.onResize.bind(this));
 		bindEvent(window, "oreintationchange", this.onResize.bind(this));
+	}
+	
+	loadLevel(name)
+	{
+		let a, i;
+		
+		a = _loader.get(name).data;
+		
+		for (i=0; i<a.objects.length; i++)
+		{
+			a.objects[i].id = uniqueId();
+		}
+		
+		a.mapJson = _loader.get(a.mapJsonName).data;
+		a.tilesetJson = _loader.get(a.tilesetJsonName).data;
+		a.tilesetImage = _loader.get(a.tilesetImageName).image;
+		
+		this.level = a;
 	}
 	
 	doCollisionHandling(a, b)
@@ -119,6 +139,8 @@ class Game
 		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 100, screenX: 32, screenY: -30 }));
 		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 150, screenX: 32, screenY: -40 }));
 		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 200, screenX: 32, screenY: -50, gfxObject: _gfxObjects.get("enemy2") }));
+		
+		this.loadLevel("level_json");
 		
 		console.log("Load finished.");
 	}
@@ -238,7 +260,7 @@ class Game
 	
 	draw()
 	{
-		let map, tiles_json, tiles_img, second_img, a, ax, ay, bx, by, cx, cy, x, y, i;
+		let a, ax, ay, bx, by, cx, cy, x, y, i;
 		
 		if (this.canvasResizeNeeded)
 		{
@@ -254,11 +276,6 @@ class Game
 			return;
 		}
 		
-		map = _loader.get("map_level1").data;
-		tiles_json = _loader.get("tileset2_json").data;
-		tiles_img = _loader.get("terrain_png").image;
-		second_img = _loader.get("second_png").image;
-		
 		ax = Math.floor(Math.floor(this.ax) / 16);
 		ay = Math.floor(Math.floor(this.ay) / 16);
 		
@@ -270,12 +287,12 @@ class Game
 		{
 			for (x=0; x<6; x++)
 			{
-				a = map.layers[0].data[(ay + y) * map.layers[0].width + ax + x];
-				a = a - map.tilesets[0].firstgid;
-				bx = a % tiles_json.columns;
-				by = Math.floor(a / tiles_json.columns);
+				a = this.level.mapJson.layers[0].data[(ay + y) * this.level.mapJson.layers[0].width + ax + x];
+				a = a - this.level.mapJson.tilesets[0].firstgid;
+				bx = a % this.level.tilesetJson.columns;
+				by = Math.floor(a / this.level.tilesetJson.columns);
 				
-				_gfx.drawTile(tiles_img, bx, by, x * 16 - cx, y * 16 - cy);
+				_gfx.drawTile(this.level.tilesetImage, bx, by, x * 16 - cx, y * 16 - cy);
 			}
 		}
 		

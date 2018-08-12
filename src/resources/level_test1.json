@@ -1,0 +1,22 @@
+{
+	"name": "Level 1",
+	"mapJsonName": "map_level1",
+	"tilesetJsonName": "tileset2_json",
+	"tilesetImageName": "terrain_png",
+	"objects": [
+		{
+			"x": 30,
+			"y": 30,
+			"class": "enemy1",
+			"startDelay": 60,
+			"fleeDelay": 120
+		},
+		{
+			"x": 30,
+			"y": 30,
+			"class": "enemy1",
+			"startDelay": 60,
+			"fleeDelay": 120
+		}
+	]
+}
