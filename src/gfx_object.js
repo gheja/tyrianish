@@ -36,18 +36,12 @@ class GfxObject
 		
 		if (this.animated)
 		{
-			if (ticks > this.animationFrameTicks * this.animationFrames)
+			if (ticks >= this.animationFrameTicks * this.animationFrames)
 			{
 				return;
 			}
 			
-			// a = this.imageY + Math.floor(ticks / this.animationFrameTicks) % this.animationFrames;
 			a = this.imageY + Math.floor(ticks / this.animationFrameTicks);
-			
-			if (a > this.animationFrames)
-			{
-				return;
-			}
 		}
 		else
 		{
