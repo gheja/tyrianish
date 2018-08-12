@@ -50,13 +50,6 @@ class GameObjectPlayerOne extends GameObjectShip
 		super.handleHitBy(projectile);
 	}
 	
-	shoot()
-	{
-		this.shootTicksLeft = 10;
-		this.power -= 0.2;
-		_game.objects.push(new GameObjectProjectile({ screenX: this.screenX, screenY: this.screenY - 10, speedX: 0, speedY: -3, hitCheckGroup: this.hitCheckGroup }));
-	}
-	
 	restart()
 	{
 		this.highlightTicksLeft = 60;
