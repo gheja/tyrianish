@@ -22,7 +22,9 @@ class GameObjectShip extends GameObject
 		this.highlightTicksLeft = 60;
 		this.playerIndex = 0;
 		this.shootTicksLeft = 0;
-		this.shootNumber = 0;
+		this.weaponName = "cannon";
+		this.weaponSweepDirection = 1;
+		this.weaponSweepX = 0;
 		
 		this.power = 0;
 		this.shield = 0.5;
@@ -45,7 +47,78 @@ class GameObjectShip extends GameObject
 	
 	shoot()
 	{
-		let a, b, weapon;
+		let i, a, b, weaponName, weapon, sweepX, direction;
+		
+		sweepX = 0;
+		
+		weapon = _weaponTemplates.get("_defaults");
+		_merge(weapon, _weaponTemplates.get(this.weaponName));
+		
+		if (this.power < weapon.power || this.shootTicksLeft > 0)
+		{
+			return;
+		}
+		
+		if (this.enemy)
+		{
+			direction = -1;
+		}
+		else
+		{
+			direction = 1;
+		}
+		
+		if (weapon.sweepEnabled)
+		{
+			// if sweeping left
+			if (this.weaponSweepDirection < 0)
+			{
+				// and reached limit
+				if (this.weaponSweepX <= -weapon.sweepDistance)
+				{
+					// change direction
+					this.weaponSweepDirection = 1;
+					this.weaponSweepX = -weapon.sweepDistance;
+				}
+			}
+			else
+			{
+				// and reached limit
+				if (this.weaponSweepX >= weapon.sweepDistance)
+				{
+					// change direction
+					this.weaponSweepDirection = -1;
+					this.weaponSweepX = weapon.sweepDistance;
+				}
+			}
+			
+			this.weaponSweepX += weapon.sweepSteps * this.weaponSweepDirection;
+		}
+		else
+		{
+			this.weaponSweepX = 0;
+		}
+		
+		this.shootTicksLeft = weapon.shootInterval;
+		this.power -= weapon.power;
+		
+		for (i=0; i<weapon.projectiles.length; i++)
+		{
+			a = weapon.projectiles[i];
+			
+			b = {
+				screenX: this.screenX + a.padX + this.weaponSweepX,
+				screenY: this.screenY + a.padY * direction,
+				speedX: a.speedX,
+				speedY: a.speedY * direction,
+				hitCheckGroup: this.hitCheckGroup,
+				gfxObjectName: "cannon_projectile1"
+			};
+			
+			_game.objects.push(new GameObjectProjectile(b));
+		}
+		
+		return;
 		
 		a = 0;
 		weapon = 3;
