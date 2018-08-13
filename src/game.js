@@ -238,6 +238,8 @@ class Game
 		if (a.shoot)
 		{
 			_editor.selectObject(_debug.editHoveredObject);
+			
+			_editor.update();
 		}
 		
 		_debug.editX = clamp(this.ax, this.ax + WIDTH, _debug.editX);
@@ -367,8 +369,6 @@ class Game
 			
 			_gfx.drawBox(_debug.editX - 1 - this.ax, _debug.editY - 1 - this.ay, 3, 3, "rgba(255, 255, 0, 0.6)");
 		}
-		
-		_editor.update();
 	}
 	
 	timer()
