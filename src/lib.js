@@ -53,7 +53,7 @@ function _merge(obj, settings)
 {
 	let i;
 	
-	if (typeof settings != "object")
+	if (typeof settings != "object" || settings === null)
 	{
 		return;
 	}
