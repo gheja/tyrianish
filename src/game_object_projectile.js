@@ -20,8 +20,10 @@ class GameObjectProjectile extends GameObject
 	
 	tick()
 	{
-		this.screenX += this.speedX;
-		this.screenY += this.speedY;
+		this.mapX += this.speedX;
+		this.mapY += this.speedY;
+		
+		this.updateScreenCoordinates();
 		
 		if (this.screenX < -32 || this.screenY < -32 || this.screenX > WIDTH + 32 || this.screenY > HEIGHT + 32)
 		{

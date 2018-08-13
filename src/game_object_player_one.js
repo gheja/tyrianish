@@ -162,6 +162,8 @@ class GameObjectPlayerOne extends GameObjectShip
 				this.shootTicksLeft--;
 			}
 		}
+		
+		this.updateScreenCoordinates();
 	}
 	
 	drawBars()
