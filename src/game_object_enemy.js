@@ -127,9 +127,11 @@ class GameObjectEnemy extends GameObjectShip
 	{
 		let a, b, points, i;
 		
-		a = _getArrayKeys(this, [ "mapX", "mapY", "screenX", "screenY", "speedX", "speedY", "moveTicks", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
+		a = _getArrayKeys(this, [ "ticks", "moveTicks", "mapX", "mapY", "screenX", "screenY", "speedX", "speedY", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
 		
-		for (i=0; i<300; i++)
+		this.restart();
+		
+		for (i=0; i<600; i++)
 		{
 			this.autopilotTick();
 			
