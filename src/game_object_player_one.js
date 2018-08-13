@@ -107,7 +107,6 @@ class GameObjectPlayerOne extends GameObjectShip
 		
 		if (this.status == PLAYER_STATUS_DEAD)
 		{
-			// this.gfxObject = _gfxObjects.get("explosion1");
 			this.gfxObject = _gfxObjects.get("player1_dead");
 		}
 		else
