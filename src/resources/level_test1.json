@@ -3,20 +3,24 @@
 	"mapJsonName": "map_level1",
 	"tilesetJsonName": "tileset2_json",
 	"tilesetImageName": "terrain_png",
+	"startMapX": 16,
+	"startMapY": 1536,
 	"objects": [
 		{
-			"x": 30,
-			"y": 30,
+			"mapX": 48,
+			"mapY": 1490,
 			"class": "enemy1",
-			"startDelay": 60,
-			"fleeDelay": 120
+			"startDelayTicks": 5,
+			"fleeDelayTicks": 600,
+			"path": "straight"
 		},
 		{
-			"x": 30,
-			"y": 30,
+			"mapX": 48,
+			"mapY": 1500,
 			"class": "enemy1",
-			"startDelay": 60,
-			"fleeDelay": 120
+			"startDelayTicks": 15,
+			"fleeDelayTicks": 600,
+			"path": "straight"
 		}
 	]
 }
