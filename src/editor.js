@@ -4,10 +4,24 @@ class Editor
 {
 	constructor()
 	{
+		let a, i;
+		
 		this.visible = false;
 		this.selectedObject = null;
 		this.level = null;
 		this.updateDom();
+		
+		a = document.getElementById("editor_controls").getElementsByTagName("input");
+		for (i=0; i<a.length; i++)
+		{
+			bindEvent(a[i], "change", this.onInputChange.bind(this));
+		}
+		
+		a = document.getElementById("editor_controls").getElementsByTagName("select");
+		for (i=0; i<a.length; i++)
+		{
+			bindEvent(a[i], "change", this.onInputChange.bind(this));
+		}
 	}
 	
 	unselectObject()
@@ -24,14 +38,47 @@ class Editor
 		}
 		
 		this.selectedObject = obj;
+		
+		this.update()
+	}
+	
+	onInputChange(e)
+	{
+		this.updateObject();
+		
+		e.preventDefault();
+		e.stopPropagation();
 	}
 	
 	update()
 	{
 		let obj;
 		
-		obj = document.getElementById("editor_coordinates");
-		obj.innerHTML = Math.round(_debug.editX) + ", " + Math.round(_debug.editY);
+		setInputValue("editor_coordinates", Math.round(_debug.editX) + ", " + Math.round(_debug.editY));
+		
+		if (!this.selectedObject)
+		{
+			//
+		}
+		else
+		{
+			setInputValue("editor_enemy_coordinates", Math.round(this.selectedObject.startConfig.screenX + _game.ax) + ", " + Math.round(this.selectedObject.startConfig.screenY + _game.ay));
+			setInputValue("editor_enemy_start_delay", this.selectedObject.startConfig.startDelayTicks);
+			setInputValue("editor_enemy_flee_delay", this.selectedObject.startConfig.fleeDelayTicks);
+			setInputValue("editor_enemy_path", "sine");
+		}
+	}
+	
+	updateObject()
+	{
+		if (!this.selectedObject)
+		{
+			return;
+		}
+		
+		this.selectedObject.startConfig.startDelayTicks = getInputValueInt("editor_enemy_start_delay");
+		this.selectedObject.startConfig.fleeDelayTicks = getInputValueInt("editor_enemy_flee_delay");
+		this.selectedObject.rerun();
 	}
 	
 	updateDom()
