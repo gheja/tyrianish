@@ -34,7 +34,7 @@ class GameObject
 	
 	updateHitCheckArray()
 	{
-		if (this.gfxObject === null || !this.hitCheckEnabled || this.destroyed)
+		if (this.gfxObject === null || !this.hitCheckEnabled || this.destroyed || this.screenY < -16)
 		{
 			this.hitCheckArrayValid = false;
 			return;
