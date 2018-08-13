@@ -112,7 +112,7 @@ class GameObjectShip extends GameObject
 				speedX: a.speedX,
 				speedY: a.speedY * direction,
 				hitCheckGroup: this.hitCheckGroup,
-				gfxObjectName: "cannon_projectile1"
+				gfxObjectName: a.gfxObjectName
 			};
 			
 			_game.objects.push(new GameObjectProjectile(b));
