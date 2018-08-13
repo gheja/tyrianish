@@ -42,10 +42,35 @@
 		<div id="editor_controls">
 			<div id="editor_coordinates">0, 0</div>
 			
+			<label>Tool:</label>
 			<select id="editor_mode">
+				<option value="select">select</option>
+				<option value="move">move</option>
 				<option value="place">place</option>
-				<option value="edit">edit</option>
 			</select>
+			
+			<hr/>
+			<div id="editor_enemy_coordinates">0, 0</div>
+			
+			<label>Type:</label>
+			<select id="editor_enemy_type">
+				<option value="enemy1">Enemy 1</option>
+				<option value="enemy2">Enemy 2</option>
+			</select>
+			
+			<label>Path:</label>
+			<select id="editor_enemy_path">
+				<option value="straight">straight</option>
+				<option value="sine">sine</option>
+				<option value="leftright">left-right</option>
+				<option value="rightleft">right-left</option>
+			</select>
+			
+			<label>Start delay:</label>
+			<input id="editor_enemy_start_delay" type="range" min="0" max="600" default="10" value="10"/>
+			
+			<label>Flee delay:</label>
+			<input id="editor_enemy_flee_delay" type="range" min="0" max="600" default="10" value="10"/>
 		</div>
 	</body>
 </html>
