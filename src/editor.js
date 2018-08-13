@@ -14,12 +14,20 @@ class Editor
 		a = document.getElementById("editor_controls").getElementsByTagName("input");
 		for (i=0; i<a.length; i++)
 		{
+			bindEvent(a[i], "keyup", this.onDummyEvent.bind(this));
+			bindEvent(a[i], "keydown", this.onDummyEvent.bind(this));
 			bindEvent(a[i], "change", this.onInputChange.bind(this));
+			if (a[i].type == "range")
+			{
+				bindEvent(a[i], "mousewheel", this.onMouseWheel.bind(this));
+			}
 		}
 		
 		a = document.getElementById("editor_controls").getElementsByTagName("select");
 		for (i=0; i<a.length; i++)
 		{
+			bindEvent(a[i], "keyup", this.onDummyEvent.bind(this));
+			bindEvent(a[i], "keydown", this.onDummyEvent.bind(this));
 			bindEvent(a[i], "change", this.onInputChange.bind(this));
 		}
 	}
@@ -42,11 +50,32 @@ class Editor
 		this.update()
 	}
 	
+	onDummyEvent(e)
+	{
+		e.stopPropagation();
+	}
+	
+	onMouseWheel(e)
+	{
+		if (e.deltaY < 0)
+		{
+			e.target.value = clamp(1 * e.target.min, 1 * e.target.max, 1 * e.target.value - 15);
+		}
+		else if (e.deltaY > 0)
+		{
+			e.target.value = clamp(1 * e.target.min, 1 * e.target.max, 1 * e.target.value + 15);
+		}
+		
+		e.target.focus();
+		this.updateObject();
+		
+		e.stopPropagation();
+	}
+	
 	onInputChange(e)
 	{
 		this.updateObject();
 		
-		e.preventDefault();
 		e.stopPropagation();
 	}
 	
