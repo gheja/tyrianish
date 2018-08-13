@@ -165,6 +165,32 @@ class GameObjectEnemy extends GameObjectShip
 		}
 	}
 	
+	restart()
+	{
+		this.ticks = 0;
+		this.moveTicks = 0;
+		this.uniqueId = this.startConfig.uniqueId;
+		this.fleeDelayTicksLeft = this.startConfig.fleeDelayTicks;
+		this.startDelayTicksLeft = this.startConfig.startDelayTicks;
+		this.mapX = this.startConfig.mapX;
+		this.mapY = this.startConfig.mapY;
+	}
+	
+	rerun()
+	{
+		let i, a;
+		
+		a = this.ticks;
+		
+		this.restart();
+		
+		for (i=0; i<a; i++)
+		{
+			this.ticks++;
+			this.autopilotTick();
+		}
+	}
+	
 	draw()
 	{
 		let i;
