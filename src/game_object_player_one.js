@@ -137,8 +137,8 @@ class GameObjectPlayerOne extends GameObjectShip
 		this.speedX *= this.speedReduction;
 		this.speedY *= this.speedReduction;
 		
-		this.screenX = clamp(0, WIDTH, this.screenX + this.speedX);
-		this.screenY = clamp(0, HEIGHT, this.screenY + this.speedY);
+		this.mapX = clamp(_game.ax, _game.ax + WIDTH, this.mapX + this.speedX);
+		this.mapY = clamp(_game.ay, _game.ay + HEIGHT, this.mapY + this.speedY - _flowSpeed / FPS);
 		
 		if (this.status == PLAYER_STATUS_DEAD)
 		{

@@ -6,11 +6,11 @@ const ENEMY_STATE_FLEEING = 3;
 
 class GameObjectEnemy extends GameObjectShip
 {
-	constructor(settings)
+	constructor(settings, settings2)
 	{
 		super();
 		
-		this.gfxObject = _gfxObjects.get("enemy1");
+		this.gfxObjectName = "enemy1";
 		this.speedMaxX = 4; // pixels per tick, TODO: pixels per second?
 		this.speedMaxY = 4; // pixels per tick, TODO: pixels per second?
 		this.speedReduction = 0.9;
@@ -19,18 +19,28 @@ class GameObjectEnemy extends GameObjectShip
 		this.hitCheckEnabled = true;
 		this.hitCheckGroup = 0;
 		this.flowing = true;
-		this.fleeing = false;
 		this.moveTicks = 0;
-		this.fleeDelayTicksLeft = 180;
-		this.startDelayTicksLeft = 5;
+		
+		this.fleeDelayTicksLeft = 0;
+		this.startDelayTicksLeft = 0;
 		
 		this.highlightTicksLeft = 60;
 		this.playerIndex = 0;
 		this.shootTicksLeft = 0;
 		
+		this.mapX = 0;
+		this.mapY = 0;
+		
 		this.power = 0;
 		this.shield = 0.5;
 		this.armor = 0.5;
+		
+		this.startConfig = {
+			mapX: 0,
+			mapY: 0,
+			startDelayTicks: 0,
+			fleeDelayTicks: 600
+		};
 		
 		this.stats = {
 			powerMax: 1,
@@ -45,6 +55,11 @@ class GameObjectEnemy extends GameObjectShip
 		this.explosionAnimations = [ "explosion2" ];
 		
 		_merge(this, settings);
+		_merge(this.startConfig, settings2);
+		
+		this.gfxObject = _gfxObjects.get(this.gfxObjectName);
+		
+		this.restart();
 	}
 	
 	shoot()
@@ -97,15 +112,17 @@ class GameObjectEnemy extends GameObjectShip
 			}
 		}
 		
-		this.screenX += this.speedX;
-		this.screenY += this.speedY;
+		this.mapX += this.speedX;
+		this.mapY += this.speedY;
+		
+		this.updateScreenCoordinates();
 	}
 	
 	drawPath()
 	{
-		let a, points, i;
+		let a, b, points, i;
 		
-		a = _getArrayKeys(this, [ "screenX", "screenY", "speedX", "speedY", "moveTicks", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
+		a = _getArrayKeys(this, [ "mapX", "mapY", "screenX", "screenY", "speedX", "speedY", "moveTicks", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
 		
 		for (i=0; i<300; i++)
 		{

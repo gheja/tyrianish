@@ -51,7 +51,7 @@ class GameObjectShip extends GameObject
 		
 		sweepX = 0;
 		
-		weapon = _weaponTemplates.get("_defaults");
+		weapon = _copy(_weaponTemplates.get("_defaults"));
 		_merge(weapon, _weaponTemplates.get(this.weaponName));
 		
 		if (this.power < weapon.power || this.shootTicksLeft > 0)
@@ -107,8 +107,8 @@ class GameObjectShip extends GameObject
 			a = weapon.projectiles[i];
 			
 			b = {
-				screenX: this.screenX + a.padX + this.weaponSweepX,
-				screenY: this.screenY + a.padY * direction,
+				mapX: this.mapX + a.padX + this.weaponSweepX,
+				mapY: this.mapY + a.padY * direction,
 				speedX: a.speedX,
 				speedY: a.speedY * direction,
 				hitCheckGroup: this.hitCheckGroup,

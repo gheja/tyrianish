@@ -10,6 +10,8 @@ class GameObjectParticle extends GameObject
 		this.ticks = 0;
 		
 		_merge(this, settings);
+		
+		this.updateScreenCoordinates();
 	}
 	
 	tick()
@@ -24,8 +26,11 @@ class GameObjectParticle extends GameObject
 			this.speedY = _flowSpeed / FPS;
 		}
 		
-		this.screenX += this.speedX;
-		this.screenY += this.speedY;
+		this.mapX += this.speedX;
+		this.mapY += this.speedY;
+		
 		this.ticks++;
+		
+		this.updateScreenCoordinates();
 	}
 }

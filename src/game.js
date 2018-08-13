@@ -38,17 +38,29 @@ class Game
 		this.lastTickTime = 0;
 		this.ticks = 0;
 		this.canvasResizeNeeded = true;
+		this.ax = 0;
+		this.ay = 0;
 		
 		this.players = [];
 		this.objects = [];
-		
-		this.ax = 16;
-		this.ay = 96 * 16;
 		
 		this.level = null;
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
 		bindEvent(window, "oreintationchange", this.onResize.bind(this));
+	}
+	
+	initEnemyObjects()
+	{
+		let a, e, t, i;
+		
+		for (i=0; i<this.level.objects.length; i++)
+		{
+			e = this.level.objects[i];
+			t = _enemyTemplates.get(e.class);
+			a = new GameObjectEnemy({ gfxObjectName: e.class, id: e.id }, _getArrayKeys(e, [ "startDelayTicks", "fleeDelayTicks", "mapX", "mapY" ]));
+			this.objects.push(a);
+		}
 	}
 	
 	loadLevel(name)
@@ -67,6 +79,12 @@ class Game
 		a.tilesetImage = _loader.get(a.tilesetImageName).image;
 		
 		this.level = a;
+		
+		
+		this.ax = this.level.startMapX;
+		this.ay = this.level.startMapY;
+		
+		this.initEnemyObjects();
 	}
 	
 	doCollisionHandling(a, b)
@@ -136,27 +154,21 @@ class Game
 	{
 		initObjects();
 		
+		this.loadLevel("level_json");
+		
 		this.players[0] = new GameObjectPlayerOne();
 		this.players[0].input = _inputs[1];
 		this.players[0].playerIndex = 0;
-		this.players[0].screenX = 16;
-		this.players[0].screenY = 56;
+		this.players[0].mapX = this.ax + 16;
+		this.players[0].mapY = this.ay + 56;
 		this.objects.push(this.players[0]);
 		
 		this.players[1] = new GameObjectPlayerOne();
 		this.players[1].input = _inputs[0];
 		this.players[1].playerIndex = 1;
-		this.players[1].screenX = 48;
-		this.players[1].screenY = 56;
+		this.players[1].mapX = this.ax + 48;
+		this.players[1].mapY = this.ay + 56;
 		this.objects.push(this.players[1]);
-		
-		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 0, screenX: 32, screenY: -10 }));
-		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 50, screenX: 32, screenY: -20 }));
-		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 100, screenX: 32, screenY: -30 }));
-		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 150, screenX: 32, screenY: -40 }));
-		this.objects.push(new GameObjectEnemy({ startDelayTicksLeft: 200, screenX: 32, screenY: -50, gfxObject: _gfxObjects.get("enemy2") }));
-		
-		this.loadLevel("level_json");
 		
 		console.log("Load finished.");
 	}
