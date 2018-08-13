@@ -71,6 +71,11 @@ class GameObjectEnemy extends GameObjectShip
 	
 	autopilotTick()
 	{
+		if (this.mapY < _game.ay - 16)
+		{
+			return;
+		}
+		
 		if (this.startDelayTicksLeft > 0)
 		{
 			this.startDelayTicksLeft--;
