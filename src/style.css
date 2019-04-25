@@ -81,15 +81,7 @@ body.editing
 	color: #fff;
 }
 
-#editor_controls select,
-#editor_controls input
+#editor_controls select
 {
 	width: 100%;
-	display: block;
-}
-
-#editor_controls label
-{
-	display: block;
-	margin: 4px 0 0 0;
 }

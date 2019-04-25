@@ -51,7 +51,7 @@ class GameObjectShip extends GameObject
 		
 		sweepX = 0;
 		
-		weapon = _copy(_weaponTemplates.get("_defaults"));
+		weapon = _weaponTemplates.get("_defaults");
 		_merge(weapon, _weaponTemplates.get(this.weaponName));
 		
 		if (this.power < weapon.power || this.shootTicksLeft > 0)
@@ -107,8 +107,8 @@ class GameObjectShip extends GameObject
 			a = weapon.projectiles[i];
 			
 			b = {
-				mapX: this.mapX + a.padX + this.weaponSweepX,
-				mapY: this.mapY + a.padY * direction,
+				screenX: this.screenX + a.padX + this.weaponSweepX,
+				screenY: this.screenY + a.padY * direction,
 				speedX: a.speedX,
 				speedY: a.speedY * direction,
 				hitCheckGroup: this.hitCheckGroup,
@@ -116,6 +116,72 @@ class GameObjectShip extends GameObject
 			};
 			
 			_game.objects.push(new GameObjectProjectile(b));
+		}
+		
+		return;
+		
+		a = 0;
+		weapon = 3;
+		
+		this.shootNumber++;
+		
+		if (this.enemy)
+		{
+			b = -1;
+		}
+		else
+		{
+			b = 1;
+		}
+		
+		if (weapon == 1)
+		{
+			this.shootTicksLeft = 9;
+			this.power -= 0.2;
+			
+			_game.objects.push(new GameObjectProjectile({ screenX: this.screenX + a, screenY: this.screenY + (-7) * b, speedX: 0, speedY: (-2) * b, hitCheckGroup: this.hitCheckGroup, gfxObjectName: "cannon_projectile1" }));
+		}
+		else if (weapon == 2)
+		{
+			this.shootTicksLeft = 4;
+			this.power -= 0.1;
+			
+			switch (this.shootNumber % 8)
+			{
+				case 0:
+				case 4:
+					a = 0;
+				break;
+				
+				case 1:
+				case 3:
+					a = -1;
+				break;
+				
+				case 2:
+					a = -2;
+				break;
+				
+				case 5:
+				case 7:
+					a = +1;
+				break;
+				
+				case 6:
+					a = +2;
+				break;
+			}
+			
+			_game.objects.push(new GameObjectProjectile({ screenX: this.screenX + a, screenY: this.screenY + (-7) * b, speedX: 0, speedY: (-2) * b, hitCheckGroup: this.hitCheckGroup, gfxObjectName: "cannon_projectile2" }));
+		}
+		else
+		{
+			this.shootTicksLeft = 10;
+			this.power -= 0.3;
+			
+			_game.objects.push(new GameObjectProjectile({ screenX: this.screenX, screenY: this.screenY + (-7) * b, speedX: 0, speedY: (-1) * b, hitCheckGroup: this.hitCheckGroup, gfxObjectName: "cannon_projectile3" }));
+			_game.objects.push(new GameObjectProjectile({ screenX: this.screenX, screenY: this.screenY + (-5) * b, speedX: -1 / 4, speedY: (-1) * b, hitCheckGroup: this.hitCheckGroup, gfxObjectName: "cannon_projectile3" }));
+			_game.objects.push(new GameObjectProjectile({ screenX: this.screenX, screenY: this.screenY + (-5) * b, speedX: 1 / 4, speedY: (-1) * b, hitCheckGroup: this.hitCheckGroup, gfxObjectName: "cannon_projectile3" }));
 		}
 	}
 	
@@ -180,49 +246,6 @@ class GameObjectShip extends GameObject
 		else
 		{
 			this.shootTicksLeft--;
-		}
-	}
-	
-	drawBars()
-	{
-		let c, x, y, reversed;
-		
-		x = 0;
-		y = 46;
-		reversed = false;
-		
-		c = PLAYER_HIGHLIGHT_COLORS[this.playerIndex];
-		
-		if (this.playerIndex == 0)
-		{
-			x = 0;
-		}
-		else
-		{
-			x = 58;
-			reversed = true;
-		}
-		
-		if (!reversed)
-		{
-			_gfx.drawVerticalBar(x, y, 2, 18, this.power / this.stats.powerMax, { h: 0, s: 1, l: 1 });
-			_gfx.drawVerticalBar(x + 2, y + 6, 2, 12, this.armor / this.stats.armorMax, { h: 15, s: 0.5, l: 0.7 });
-			_gfx.drawVerticalBar(x + 4, y + 6, 2, 12, this.shield / this.stats.shieldMax, { h: 200, s: 1, l: 1 });
-			
-		}
-		else
-		{
-			_gfx.drawVerticalBar(x + 4, y, 2, 18, this.power / this.stats.powerMax, { h: 0, s: 1, l: 1 });
-			_gfx.drawVerticalBar(x + 2, y + 6, 2, 12, this.armor / this.stats.armorMax, { h: 15, s: 0.5, l: 0.7 });
-			_gfx.drawVerticalBar(x, y + 6, 2, 12, this.shield / this.stats.shieldMax, { h: 200, s: 1, l: 1 });
-		}
-		
-		if (this.highlightTicksLeft > 0 && (_game.ticks % 15 < 10))
-		{
-			_gfx.drawBox(x, y + 16, 6, 2, c);
-			_gfx.drawBox(this.screenX - 2, this.screenY - 8, 5, 1, c);
-			_gfx.drawBox(this.screenX - 1, this.screenY - 7, 3, 1, c);
-			_gfx.drawBox(this.screenX, this.screenY - 6, 1, 1, c);
 		}
 	}
 }

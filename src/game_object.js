@@ -5,7 +5,7 @@ class GameObject
 	constructor(settings)
 	{
 		this.screenX = 0;
-		this.screenY = -100;
+		this.screenY = 0;
 		this.speedX = 0;
 		this.speedY = 0;
 		this.mapX = 0;
@@ -26,15 +26,9 @@ class GameObject
 		_merge(this, settings);
 	}
 	
-	updateScreenCoordinates()
-	{
-		this.screenX = this.mapX - _game.ax;
-		this.screenY = this.mapY - _game.ay;
-	}
-	
 	updateHitCheckArray()
 	{
-		if (this.gfxObject === null || !this.hitCheckEnabled || this.destroyed || this.screenY < -16)
+		if (this.gfxObject === null || !this.hitCheckEnabled || this.destroyed)
 		{
 			this.hitCheckArrayValid = false;
 			return;
@@ -51,7 +45,7 @@ class GameObject
 	{
 		if (this.explosionAnimations != null)
 		{
-			_game.objects.push(new GameObjectParticle({ gfxObject: _gfxObjects.get(pick(this.explosionAnimations)), hitCheckEnabled: false, mapX: Math.floor(this.mapX), mapY: Math.floor(this.mapY) }));
+			_game.objects.push(new GameObjectParticle({ gfxObject: _gfxObjects.get(pick(this.explosionAnimations)), hitCheckEnabled: false, screenX: Math.floor(this.screenX), screenY: Math.floor(this.screenY) }));
 		}
 		this.hitCheckArrayValid = false;
 		this.destroyed = true;

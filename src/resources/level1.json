@@ -1,0 +1,12 @@
+{
+	"name": "Level 1",
+	"mapFile": "map_level1.json",
+	"objects": [
+		{
+			"x": 30,
+			"y": 30,
+			"class": "enemy1",
+			"delay": 60
+		}
+	]
+}

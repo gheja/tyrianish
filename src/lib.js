@@ -1,49 +1,5 @@
 "use strict";
 
-function getInputValue(id)
-{
-	let obj;
-	
-	obj = document.getElementById(id);
-	
-	if (!obj)
-	{
-		throw "Cannot find object by id.";
-	}
-	
-	if (obj.value !== null)
-	{
-		return obj.value;
-	}
-	
-	return obj.innerHTML;
-}
-
-function getInputValueInt(id)
-{
-	return 1 * getInputValue(id);
-}
-
-function setInputValue(id, value)
-{
-	let obj;
-	
-	obj = document.getElementById(id);
-	
-	if (!obj)
-	{
-		throw "Cannot find object by id.";
-	}
-	
-	if (obj.value !== null)
-	{
-		obj.value = value;
-		return;
-	}
-	
-	obj.innerHTML = value;
-}
-
 function _copy(obj)
 {
 	return JSON.parse(JSON.stringify(obj));
@@ -53,7 +9,7 @@ function _merge(obj, settings)
 {
 	let i;
 	
-	if (typeof settings != "object" || settings === null)
+	if (typeof settings != "object")
 	{
 		return;
 	}

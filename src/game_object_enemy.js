@@ -6,11 +6,11 @@ const ENEMY_STATE_FLEEING = 3;
 
 class GameObjectEnemy extends GameObjectShip
 {
-	constructor(settings, settings2)
+	constructor(settings)
 	{
 		super();
 		
-		this.gfxObjectName = "enemy1";
+		this.gfxObject = _gfxObjects.get("enemy1");
 		this.speedMaxX = 4; // pixels per tick, TODO: pixels per second?
 		this.speedMaxY = 4; // pixels per tick, TODO: pixels per second?
 		this.speedReduction = 0.9;
@@ -19,28 +19,18 @@ class GameObjectEnemy extends GameObjectShip
 		this.hitCheckEnabled = true;
 		this.hitCheckGroup = 0;
 		this.flowing = true;
+		this.fleeing = false;
 		this.moveTicks = 0;
-		
-		this.fleeDelayTicksLeft = 0;
-		this.startDelayTicksLeft = 0;
+		this.fleeDelayTicksLeft = 180;
+		this.startDelayTicksLeft = 5;
 		
 		this.highlightTicksLeft = 60;
 		this.playerIndex = 0;
 		this.shootTicksLeft = 0;
 		
-		this.mapX = 0;
-		this.mapY = 0;
-		
 		this.power = 0;
 		this.shield = 0.5;
 		this.armor = 0.5;
-		
-		this.startConfig = {
-			mapX: 0,
-			mapY: 0,
-			startDelayTicks: 0,
-			fleeDelayTicks: 600
-		};
 		
 		this.stats = {
 			powerMax: 1,
@@ -55,11 +45,6 @@ class GameObjectEnemy extends GameObjectShip
 		this.explosionAnimations = [ "explosion2" ];
 		
 		_merge(this, settings);
-		_merge(this.startConfig, settings2);
-		
-		this.gfxObject = _gfxObjects.get(this.gfxObjectName);
-		
-		this.restart();
 	}
 	
 	shoot()
@@ -71,11 +56,6 @@ class GameObjectEnemy extends GameObjectShip
 	
 	autopilotTick()
 	{
-		if (this.mapY < _game.ay - 16)
-		{
-			return;
-		}
-		
 		if (this.startDelayTicksLeft > 0)
 		{
 			this.startDelayTicksLeft--;
@@ -117,21 +97,17 @@ class GameObjectEnemy extends GameObjectShip
 			}
 		}
 		
-		this.mapX += this.speedX;
-		this.mapY += this.speedY;
-		
-		this.updateScreenCoordinates();
+		this.screenX += this.speedX;
+		this.screenY += this.speedY;
 	}
 	
 	drawPath()
 	{
-		let a, b, points, i;
+		let a, points, i;
 		
-		a = _getArrayKeys(this, [ "ticks", "moveTicks", "mapX", "mapY", "screenX", "screenY", "speedX", "speedY", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
+		a = _getArrayKeys(this, [ "screenX", "screenY", "speedX", "speedY", "moveTicks", "startDelayTicksLeft", "fleeDelayTicksLeft", "flowing" ]);
 		
-		this.restart();
-		
-		for (i=0; i<600; i++)
+		for (i=0; i<300; i++)
 		{
 			this.autopilotTick();
 			
@@ -172,39 +148,13 @@ class GameObjectEnemy extends GameObjectShip
 		}
 	}
 	
-	restart()
-	{
-		this.ticks = 0;
-		this.moveTicks = 0;
-		this.uniqueId = this.startConfig.uniqueId;
-		this.fleeDelayTicksLeft = this.startConfig.fleeDelayTicks;
-		this.startDelayTicksLeft = this.startConfig.startDelayTicks;
-		this.mapX = this.startConfig.mapX;
-		this.mapY = this.startConfig.mapY;
-	}
-	
-	rerun()
-	{
-		let i, a;
-		
-		a = this.ticks;
-		
-		this.restart();
-		
-		for (i=0; i<a; i++)
-		{
-			this.ticks++;
-			this.autopilotTick();
-		}
-	}
-	
 	draw()
 	{
 		let i;
 		
 		super.draw();
 		
-		if (_debug.paths || _editor.selectedObject == this)
+		if (_debug.paths || _debug.editSelectedObject == this)
 		{
 			this.drawPath();
 		}

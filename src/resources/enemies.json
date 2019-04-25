@@ -3,12 +3,10 @@
 		"title": "Enemy 1",
 		"armor": 1,
 		"shield": 1,
-		"weaponName": "none",
-		"weaponLevel": 0,
+		"weaponName": "cannon1",
+		"weaponLevel": 1,
 		"imageName": "second_png",
 		"imageX": 0,
-		"imageY": 1,
-		"speedX": 0,
-		"speedY": 1
+		"imageY": 1
 	}
 }
